@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 3 - To-Do List with Local Storage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Input box for typing a new task -->
+    <input id="taskInput" type="text" placeholder="Type a task...">
+
+    <!-- Button that adds the typed task to the list -->
+    <button id="addBtn">Add Task</button>
+
+    <!-- Empty list container; <li> items are inserted here by JavaScript -->
+    <ul id="taskList"></ul>
+    <script>
+        // When the page finishes loading, read saved tasks from localStorage
+        // and redraw them on the page so they persist after refresh / reopen
+        window.onload = function () {
+            let saved = localStorage.getItem("tasks");
+            if (saved != null) {
+                let tasks = JSON.parse(saved);
+                for (let i = 0; i < tasks.length; i++) {
+                    addTaskToPage(tasks[i]);
+                }
+            }
+        };
+
+        // Runs when the "Add Task" button is clicked
+        function addTask() {
+            let input = document.getElementById("taskInput");
+            let text = input.value;
+            if (text == "") return;
+
+            addTaskToPage(text);
+            saveTasks();
+            input.value = "";
+        }
+
+        // Create one <li> on the page containing the task text and a Delete button
+        function addTaskToPage(text) {
+            let ul = document.getElementById("taskList");
+
+            let li = document.createElement("li");
+            let span = document.createElement("span");
+            span.textContent = text;
+
+            let delBtn = document.createElement("button");
+            delBtn.textContent = "Delete";
+            delBtn.style.marginLeft = "10px";
+
+            // When this Delete button is clicked, remove its own <li> and re-save
+            delBtn.onclick = function () {
+                li.remove();
+                saveTasks();
+            };
+
+            li.appendChild(span);
+            li.appendChild(delBtn);
+            ul.appendChild(li);
+
+        }
+
+        // Collect all <li> items currently on the page and store them in localStorage
+        function saveTasks() {
+            let items = document.getElementById("taskList").getElementsByTagName("li");
+            let tasks = [];
+            for (let i = 0; i < items.length; i++) {
+                let span = items[i].getElementsByTagName("span")[0];
+                tasks.push(span.textContent);
+            }
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+
+        // Bind the Add Task button click event to the addTask function
+        document.getElementById("addBtn").addEventListener('click', addTask);
+    </script>
+</body>
+
+</html>

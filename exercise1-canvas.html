@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 1 - HTML5 Canvas Smile</title>
+</head>
+
+<body>
+    <canvas id="smileyCanvas" width="600" height="580">
+        Your browser does not support the HTML5 canvas element.
+    </canvas>
+
+    <script>
+        const canvas = document.getElementById("smileyCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // 1. Light green background
+        ctx.fillStyle = "#90EE80";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // 2. Yellow face
+        ctx.beginPath();
+        ctx.arc(300, 270, 220, 0, Math.PI * 2);
+        ctx.fillStyle = "yellow";
+        ctx.fill();
+
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = "#000000";
+        ctx.stroke();
+
+        // 3. Eyes
+        ctx.beginPath();
+        ctx.arc(210, 210, 16, 0, Math.PI * 2);
+        ctx.fillStyle = "#000000";
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(390, 210, 16, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 4. Nose
+        ctx.beginPath();
+        ctx.moveTo(300, 260);
+        ctx.lineTo(300, 313);
+        ctx.stroke();
+
+        // 5. Smiling mouth
+        ctx.beginPath();
+        ctx.arc(300, 320, 80, Math.PI * 0.10, Math.PI * 0.90);
+        ctx.stroke();
+
+        // 6. Caption
+        ctx.font = "bold 38px Arial";
+        ctx.fillStyle = "#006400";
+        ctx.textAlign = "center";
+        ctx.fillText("The Canvas brought me to life!", 300, 550);
+    </script>
+</body>
+
+</html>
